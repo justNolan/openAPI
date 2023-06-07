@@ -1,0 +1,291 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My OpenAPI",
+    "description": "Some unnecessary Text",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost",
+      "description": "My Localhost"
+    }
+  ],
+  "paths": {
+    "/todo-list/{list_id}": {
+      "get": {
+        "summary": "Get Todo-List with list_id",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of todo-list object",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "description": "Get Todo-List with list_id",
+        "responses": {
+          "200": {
+            "description": "Todo-List found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "entries": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/entry"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not find todo-list"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Todo-List with list_id",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of todo-list object",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "description": "Delete Todo-List with list_id",
+        "responses": {
+          "200": {
+            "description": "Todo-List successfully deleted"
+          },
+          "404": {
+            "description": "Could not find todo-list"
+          }
+        }
+      }
+    },
+    "/todo-list": {
+      "post": {
+        "summary": "Add new Todo-List",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "name of the todo-list",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add new Todo-List",
+        "responses": {
+          "200": {
+            "description": "Todo-List Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/todo-list"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/todo-list/{list_id/entry}": {
+      "post": {
+        "summary": "Add new entry to todo-list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of todo-list object",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "name of the entry",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": true,
+            "description": "description of the entry",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Add new entry to todo-list",
+        "responses": {
+          "200": {
+            "description": "Entry Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/entry"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not find todo-list"
+          },
+          "400": {
+            "description": "Invalid post data"
+          }
+        }
+      }
+    },
+    "/todo-list/{list_id}/entry/{entry_id}": {
+      "put": {
+        "summary": "Update entry to todo-list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of todo-list object",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "entry_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of entry object",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of the entry",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "description of the entry",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Update entry to todo-list",
+        "responses": {
+          "200": {
+            "description": "Entry Successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/entry"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not find todo-list or entry"
+          },
+          "400": {
+            "description": "Invalid post data"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete entry to todo-list",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of todo-list object",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "entry_id",
+            "in": "path",
+            "required": true,
+            "description": "ID of entry object",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "description": "Delete entry to todo-list",
+        "responses": {
+          "200": {
+            "description": "Entry Successfully delted"
+          },
+          "404": {
+            "description": "Could not find todo-list or entry"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "todo-list": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "entry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "listID": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}
